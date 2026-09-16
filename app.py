@@ -1,5 +1,6 @@
 import re
 import streamlit as st
+from database import crear_tabla, guardar_contacto
 
 # ---------- CONFIGURACIÓN ----------
 st.set_page_config(
@@ -7,6 +8,7 @@ st.set_page_config(
     page_icon="💡",
     layout="centered"
 )
+crear_tabla()
 
 # ---------- CABECERA ----------
 st.title("💡 ¿Estás pagando de más?")
@@ -94,6 +96,15 @@ if enviado:
         for error in errores:
             st.error(error)
     else:
+        guardar_contacto(
+            nombre=nombre.strip(),
+            telefono=telefono_limpio,
+            email=email.strip(),
+            ciudad=ciudad.strip(),
+            horario=horario,
+            pagos=pagos,
+            consentimiento=acepta,
+        )
         st.success(
             f"¡Gracias, {nombre.strip()}! 🎉 "
             "Un asesor te contactará pronto con tu propuesta."
